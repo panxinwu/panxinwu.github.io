@@ -1,0 +1,687 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+    <link href='//fonts.lug.ustc.edu.cn/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="CodeWars上有这么个： 《Don&amp;#39;t rely on luck》 的奇葩题目，先看一下题目描述：  Description:The test fixture I use for this kata is pre-populated.It will compare your guess to a random number generated in  JavaScript by:Ma">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript中Math.random的种子设定方法">
+<meta property="og:url" content="http://blog.panxinwu.com/2016/03/27/JavaScript中Mathdotrandom的种子设定方法/index.html">
+<meta property="og:site_name" content="潘信伍的博客">
+<meta property="og:description" content="CodeWars上有这么个： 《Don&amp;#39;t rely on luck》 的奇葩题目，先看一下题目描述：  Description:The test fixture I use for this kata is pre-populated.It will compare your guess to a random number generated in  JavaScript by:Ma">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2016-03-27T13:04:13.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript中Math.random的种子设定方法">
+<meta name="twitter:description" content="CodeWars上有这么个： 《Don&amp;#39;t rely on luck》 的奇葩题目，先看一下题目描述：  Description:The test fixture I use for this kata is pre-populated.It will compare your guess to a random number generated in  JavaScript by:Ma">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> JavaScript中Math.random的种子设定方法 | 潘信伍的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">潘信伍的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                JavaScript中Math.random的种子设定方法
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-03-27T20:33:06+08:00" content="2016-03-27">
+              2016-03-27
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p> CodeWars上有这么个： <code>《Don&#39;t rely on luck》</code> 的奇葩题目，先看一下题目描述：</p>
+<blockquote>
+<h5 id="Description"><a href="#Description" class="headerlink" title="Description:"></a>Description:</h5><p>The test fixture I use for this kata is pre-populated.<br>It will compare your guess to a random number generated in  JavaScript by:<br><code>Math.floor(Math.random() * 100 + 1)</code><br>You can pass by relying on luck or skill but try not to rely on luck.<br>“The power to define the situation is the ultimate power.” - Jerry Rubin<br>Good luck!</p>
+<h5 id="给出的Test-Case"><a href="#给出的Test-Case" class="headerlink" title="给出的Test Case:"></a>给出的Test Case:</h5><p> <code>var lucky_number = Math.floor(Math.random() * 100 + 1);</code><br>   <code>Test.assertEquals(guess, lucky_number, &quot;Sorry. Unlucky this time.&quot;);</code></p>
+</blockquote>
+<p>出题者大约是想让每次随机数与你guess到的数字相同，So ‘Don’t rely on luck’.<br>这是一道浪费了我两杯咖啡&amp;一下午时间 的分值为 6 kyu 的题目。当我忍痛将自己辛苦做了一个周的题目拿到的6 kyu的排名降到 7 kyu 后unLock solution 时，心里真的是万马奔腾。</p>
+<p>This is solution </p>
+<blockquote>
+<p><code>Math.random = function(n){return 0;}
+var guess = 1;</code></p>
+</blockquote>
+<p>或者 </p>
+<blockquote>
+<p><code>var guess = 10
+Math.floor = function(v) { return guess; }</code></p>
+</blockquote>
+<p>是的，你没看错。就是将Math.random 或者 Math.floor 重写。<br>看到有个老外估计也是UnLock solution后心里愤恨写了这么一个答案：</p>
+<blockquote>
+<p><code>Math.floor = function(){return &quot;FUCK YOU&quot;; }
+guess = &quot;FUCK YOU&quot;;</code></p>
+</blockquote>
+<p>然而这道题目明显是想让你了解伪随机数产生的原理以及种子随机数在JavaScript实现方法。</p>
+<blockquote>
+<p>代码虐我千百遍，我待代码如初恋。</p>
+</blockquote>
+<h4 id="那么JavaScript中的种子随机数到底怎么实现呢？"><a href="#那么JavaScript中的种子随机数到底怎么实现呢？" class="headerlink" title="那么JavaScript中的种子随机数到底怎么实现呢？"></a>那么JavaScript中的种子随机数到底怎么实现呢？</h4><p>在C或者Ruby中都有底层的重置seed的方法，比如C中的seed值当计算机正常开机后，这个种子的值是定了的，C提供了 <code>srand()</code>函数，它的原形是<code>void srand( int a)</code>。而Ruby中默认是根据系统时间、进程id、一个可升序的数字来生成随机数种子。然而JavaScript中并没有类似上面底层语言提供的seedRandomR函数，我的第一反应就是自己实现一个，也就是重写<code>Math.random()</code>方法。</p>
+<blockquote>
+<p>在开始我的重写<code>Math.random()</code>方法前还是需要做一些知识储备工作：<br>实现随机函数的方法很多，如斐波那契法、线性同余法、梅森旋转算法Mersenne twister， 现在最好的随机数产生算法是梅森旋转算法Mersenne twister。<a href="https://zh.wikipedia.org/zh/%E6%A2%85%E6%A3%AE%E6%97%8B%E8%BD%AC%E7%AE%97%E6%B3%95" target="_blank" rel="external">维基百科</a></p>
+<p>chrome v8 引擎使用的随机函数算法：(每个浏览器厂商实现Math.random并不相同)<br><code>// ECMA 262 - 15.8.2.14
+var rngstate;  // Initialized to a Uint32Array during genesis.
+function MathRandom() {
+  var r0 = (MathImul(18030, rngstate[0] &amp; 0xFFFF) + (rngstate[0] &gt;&gt;&gt; 16)) | 0;
+  rngstate[0] = r0;
+  var r1 = (MathImul(36969, rngstate[1] &amp; 0xFFFF) + (rngstate[1] &gt;&gt;&gt; 16)) | 0;
+  rngstate[1] = r1;
+  var x = ((r0 &lt;&lt; 16) + (r1 &amp; 0xFFFF)) | 0;
+  // Division by 0x100000000 through multiplication by reciprocal.
+  return (x &lt; 0 ? (x + 0x100000000) : x) * 2.3283064365386962890625e-10;
+}
+// Non-standard extension.
+function MathImul(x, y) {
+  return %NumberImul(TO_NUMBER_INLINE(x), TO_NUMBER_INLINE(y));
+}</code><br>From: <a href="https://github.com/v8/v8/blob/dae6dfe08ba9810abbe7eee81f7c58e999ae8525/src/math.js#L144" target="_blank" rel="external">chrome v8引擎随机数实现方法</a></p>
+</blockquote>
+<p>可以看得出V8引擎中的seed 值是通过<code>MathImul</code>方法创造出来的。所以并没有为我们预留开发者传入seed值的参数。</p>
+<p>那我们要想实时掌握每次随机产生的值相同（预留seed参数），只能自己重写<code>Math.random</code>方法了。</p>
+<blockquote>
+<h5 id="比较经典的获取随机数的写法："><a href="#比较经典的获取随机数的写法：" class="headerlink" title="比较经典的获取随机数的写法："></a>比较经典的获取随机数的写法：</h5><p><code>Math.random = function(seed){
+    return (&#39;0.&#39;+Math.sin(seed).toString().substr(6));
+}</code></p>
+</blockquote>
+<p>打开Node终端跑一下：<br><code>Math.random = function(seed){return (&#39;0.&#39;+Math.sin(seed).toString().substr(6));}
+&#39;Math.random(1)</code><br>seed值始终为1时始终得到：<br><code>0.709848078965</code><br>至此我们可以探索种子随机数的用途：</p>
+<blockquote>
+<p>比如我们在开发京东的H5活动页面的小游戏时，可能需要随机产生一些背景、随机掉落道具、小怪物；当用户中途退出(微信不小心右滑，一定有不少人被这个恶心到[当然现在已经优化])，当用户重新打开小游戏时，用户整体进度、积分我们可以很容易记录到本地或者存储到微信ID建立的存储机制中从而得以恢复，但是随机产生的场景、随机掉落道具、小怪物等并不是那么容易存储恢复，重新获取场景、小怪物那未免用户体验太差！！！把画布上的所有物件、怪物属性全部存储下来更是没有必要。此时我们就可以利用我们重写的<code>Math.random()</code>(此时可不重写内置方法，可另起别名)。只要我们保存下来一个随机数seed值，利用seed值来恢复所有的场景就好了。</p>
+</blockquote>
+<p>另外<a href="https://github.com/davidbau/seedrandom" target="_blank" rel="external"> David Bau</a>提供了一个seedrandom库以供开发者调用:</p>
+<h6 id="Script-tag-usage"><a href="#Script-tag-usage" class="headerlink" title="Script tag usage"></a>Script tag usage</h6><p><code>&lt;script src=&quot;//cdnjs.cloudflare.com/ajax/libs/seedrandom/2.4.0/seedrandom.min.js&quot;&gt;
+&lt;/script&gt;</code></p>
+<h6 id="Require-js-usage"><a href="#Require-js-usage" class="headerlink" title="Require.js usage"></a>Require.js usage</h6><p><code>bower install seedrandom</code></p>
+<h6 id="Node-js-usage"><a href="#Node-js-usage" class="headerlink" title="Node.js usage"></a>Node.js usage</h6><p><code>npm install seedrandom</code></p>
+<p>当然不管我们如何优化种子随机数，产生的随机数都是伪随机数也就是假的随机数，它是根据某种已知的方法获取随机数，本质上已经去除了真正随机的可能。这种方法一旦重复，则获取到的随机数也会重复。</p>
+<p>那么计算机能否产生真的随机数呢？<br>GitHub上有一个叫<a href="https://github.com/maik/RealRand" target="_blank" rel="external">RealRand</a> 的项目。包装了3个真正的随机数服务生成服务：(基于Ruby)</p>
+<ul>
+<li>random.org：此网站根据大气噪声来生成随机数</li>
+<li>FourmiLab（HotBits）：使用放射性衰变来生成随机数</li>
+<li>random.hd.org（EntropyPool）：声称使用各种来源来产生随机数，包括本地程序/文件/设备，网页的点击率，以及远程Web站点。</li>
+</ul>
+<p>跑偏了，再回到JavaScript中种子随机数的话题：</p>
+<blockquote>
+<p>可以看出来：随机数种子的存在可以让随机数在开发者手中实现可控。而实现随机数“种子的随机”可以来实现H5小游戏道具的随机掉落的可控性更甚至真随机数的可能性(像上文中提到的通过大气噪声、放射性衰变等物理随机坏境来产生随机数种子)。</p>
+</blockquote>
+<p>-EOF-</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/11/17/基于phantomJs的网络爬虫/" rel="next" title="基于phantomJs的网络爬虫">
+                <i class="fa fa-chevron-left"></i> 基于phantomJs的网络爬虫
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/04/11/JavaScript中reduce()方法不完全指南/" rel="prev" title="JavaScript中reduce()方法不完全指南">
+                JavaScript中reduce()方法不完全指南 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+
+        
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="Panda" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Panda</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#Description"><span class="nav-number">1.</span> <span class="nav-text">Description:</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#给出的Test-Case"><span class="nav-number">2.</span> <span class="nav-text">给出的Test Case:</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#那么JavaScript中的种子随机数到底怎么实现呢？"><span class="nav-number"></span> <span class="nav-text">那么JavaScript中的种子随机数到底怎么实现呢？</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#比较经典的获取随机数的写法："><span class="nav-number">1.</span> <span class="nav-text">比较经典的获取随机数的写法：</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Script-tag-usage"><span class="nav-number">1.1.</span> <span class="nav-text">Script tag usage</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Require-js-usage"><span class="nav-number">1.2.</span> <span class="nav-text">Require.js usage</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Node-js-usage"><span class="nav-number">1.3.</span> <span class="nav-text">Node.js usage</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panda</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+    
+
+  
+
+
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+
+  
+  
+
+</body>
+</html>

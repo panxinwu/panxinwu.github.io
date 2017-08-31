@@ -1,0 +1,658 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+    <link href='//fonts.lug.ustc.edu.cn/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="基于phantomJs2.0的网络爬虫phantomJs是一个基于WebKit的服务器端JavaScript API。它全面支持web而不需浏览器支持，其快速，原生支持各种Web标准： DOM 处理, CSS 选择器, JSON, Canvas, 和 SVG。PhantomJS可以用于页面自动化，网络监测，网页截屏，以及无界面测试等。 用途概述： 屏幕快照 ：官方提供的API中page.rende">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于phantomJs的网络爬虫">
+<meta property="og:url" content="http://blog.panxinwu.com/2015/11/17/基于phantomJs的网络爬虫/index.html">
+<meta property="og:site_name" content="潘信伍的博客">
+<meta property="og:description" content="基于phantomJs2.0的网络爬虫phantomJs是一个基于WebKit的服务器端JavaScript API。它全面支持web而不需浏览器支持，其快速，原生支持各种Web标准： DOM 处理, CSS 选择器, JSON, Canvas, 和 SVG。PhantomJS可以用于页面自动化，网络监测，网页截屏，以及无界面测试等。 用途概述： 屏幕快照 ：官方提供的API中page.rende">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/80c4aaf9gw1ey49t6wl41j20rb0d1jxj.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/80c4aaf9gw1ey49s5j9pjj20rd0hiaic.jpg">
+<meta property="og:updated_time" content="2015-11-17T13:01:45.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于phantomJs的网络爬虫">
+<meta name="twitter:description" content="基于phantomJs2.0的网络爬虫phantomJs是一个基于WebKit的服务器端JavaScript API。它全面支持web而不需浏览器支持，其快速，原生支持各种Web标准： DOM 处理, CSS 选择器, JSON, Canvas, 和 SVG。PhantomJS可以用于页面自动化，网络监测，网页截屏，以及无界面测试等。 用途概述： 屏幕快照 ：官方提供的API中page.rende">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/80c4aaf9gw1ey49t6wl41j20rb0d1jxj.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> 基于phantomJs的网络爬虫 | 潘信伍的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">潘信伍的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                基于phantomJs的网络爬虫
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-11-17T09:59:33+08:00" content="2015-11-17">
+              2015-11-17
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h1 id="基于phantomJs2-0的网络爬虫"><a href="#基于phantomJs2-0的网络爬虫" class="headerlink" title="基于phantomJs2.0的网络爬虫"></a>基于phantomJs2.0的网络爬虫</h1><p><strong>phantomJs</strong>是一个基于WebKit的服务器端JavaScript API。它全面支持web而不需浏览器支持，其快速，原生支持各种Web标准： DOM 处理, CSS 选择器, JSON, Canvas, 和 SVG。PhantomJS可以用于页面自动化，网络监测，网页截屏，以及无界面测试等。</p>
+<h3 id="用途概述："><a href="#用途概述：" class="headerlink" title="用途概述："></a>用途概述：</h3><ul>
+<li><strong>屏幕快照</strong> ：官方提供的API中<a href="http://phantomjs.org/api/webpage/method/render.html" target="_blank" rel="external">page.render</a> 提供了强大的屏幕快照功能；</li>
+<li><strong>网络爬虫</strong> ：<a href="http://phantomjs.org/api/webpage/method/evaluate.html" target="_blank" rel="external">page.evaluate</a> 方法提供了一个沙箱来帮助你像用js操作dom一样简单的获取你想要的内容，避免了使用复杂的正则匹配内容；</li>
+<li><strong>网络情况监控</strong> ：定期对网站进行pageSpeed检查、可用于打开速度缓慢短信报警等服务(本文暂不做深入介绍)。</li>
+<li><strong>页面自动化操作</strong> ：phantomJs2.0 提供了丰富的API用于页面自动化操作</li>
+</ul>
+<hr>
+<h2 id="关于安装"><a href="#关于安装" class="headerlink" title="关于安装"></a>关于安装</h2><blockquote>
+<p>网络上有大量的安装教程，如果你用的osx，建议直接<code>brew update &amp;&amp; brew install phantomjs</code>。此处只叙述下在安装过程中遇到的一个坑。</p>
+</blockquote>
+<p>在Mac OS Yosemite  版本可能都会遇到这样一个问题：<br>运行 <code>phantomjs hello.js</code> 后得到了报错信息：<code>Killed: 9</code><br>这个问题的原始链接在这里<a href="https://github.com/ariya/phantomjs/issues/12928" target="_blank" rel="external">github:issue/12928</a> 解决方案如下：<a href="http://stackoverflow.com/questions/28267809/phantomjs-getting-killed-9-for-anything-im-trying" target="_blank" rel="external">stackoverflow</a></p>
+<ol>
+<li>Install UPX. UPX is an executable packer and unpacker<br> <code>$ brew install upx</code></li>
+<li>Unpack the phantomjs executable<br> <code>$ upx -d phantomjs-2.0.0-macosx/bin/phantomjs</code></li>
+<li>Run the phantomjs executable<br> <code>$ ./phantomjs-2.0.0-macosx/bin/phantomjs</code></li>
+</ol>
+<h2 id="先感受下phantomJs的强大"><a href="#先感受下phantomJs的强大" class="headerlink" title="先感受下phantomJs的强大"></a>先感受下phantomJs的强大</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var page = require(&apos;webpage&apos;).create();</div><div class="line">page.open(&apos;http://jd.com&apos;, function() &#123;</div><div class="line">page.render(&apos;jd.png&apos;);</div><div class="line">phantom.exit();</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>把以上代码保存到screen.js，切到terminal：<br><code>$ phantomejs screen.js</code></p>
+<p><strong>可以得到如下的网站截图：</strong><br><img src="http://ww1.sinaimg.cn/large/80c4aaf9gw1ey49t6wl41j20rb0d1jxj.jpg" alt="Alt text"></p>
+<blockquote>
+<p>当然还可以继续<a href="http://phantomjs.org/api/webpage/property/scroll-position.html" target="_blank" rel="external">page.scrollPosition</a>以及Js脚本做延时截图，来避免截图中出现图片未加载完全等问题。</p>
+</blockquote>
+<h2 id="页面自动化操作"><a href="#页面自动化操作" class="headerlink" title="页面自动化操作"></a>页面自动化操作</h2><h3 id="自动登录京东"><a href="#自动登录京东" class="headerlink" title="自动登录京东"></a>自动登录京东</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">var page = require(&apos;webpage&apos;).create();</div><div class="line"></div><div class="line">page.onLoadStarted =function() &#123;</div><div class="line">    loadInProgress =true;</div><div class="line">    console.log(&quot;load started&quot;);</div><div class="line">&#125;;</div><div class="line"> </div><div class="line">page.onLoadFinished = function() &#123;</div><div class="line">    loadInProgress = false;</div><div class="line">    console.log(&quot;load finished&quot;);</div><div class="line">&#125;;</div><div class="line">page.onUrlChanged = function() &#123;</div><div class="line">    console.log(&quot;onUrlChanged&quot;);</div><div class="line">&#125;;</div><div class="line"> page.open(&apos;https://passport.jd.com/new/login.aspx&apos;, function() &#123;</div><div class="line">    page.includeJs(&quot;http://apps.bdimg.com/libs/jquery/1.6.4/jquery.js&quot;, function() &#123;</div><div class="line">        var rect = page.evaluate(function() &#123;</div><div class="line">            $(&apos;#loginname&apos;).val(&apos;username&apos;);</div><div class="line">            $(&apos;#nloginpwd&apos;).val(&apos;passwd&apos;);</div><div class="line">            $(&apos;#loginsubmit&apos;)[0].click();</div><div class="line">            return document.title;</div><div class="line">        &#125;);</div><div class="line">        //若引入jQuery 则用这种方法来实现click</div><div class="line">        page.sendEvent(&apos;click&apos;, rect.left + rect.width / 2, rect.top + rect.height / 2);</div><div class="line">        console.log(rect);</div><div class="line">        var clock =setTimeout(function()&#123;</div><div class="line">            page.render(&apos;jdlogin.png&apos;);</div><div class="line">            phantom.exit();</div><div class="line">        &#125;,2000);</div><div class="line">    &#125;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<blockquote>
+<p>phantomJs2.0中click事件不是标准事件<br> 若 <code>page.evaluate</code>中操作dom时并未引入jQuery，则应自己实现一个click事件如下：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">function click(el)&#123;</div><div class="line">    var ev = document.createEvent(&quot;MouseEvent&quot;);</div><div class="line">    ev.initMouseEvent(</div><div class="line">        &quot;click&quot;,</div><div class="line">        true /* bubble */, true /* cancelable */,</div><div class="line">        window, null,</div><div class="line">        0, 0, 0, 0, /* coordinates */</div><div class="line">        false, false, false, false, /* modifier keys */</div><div class="line">        0 /*left*/, null</div><div class="line">    );</div><div class="line">    el.dispatchEvent(ev);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>解决方案来自<a href="http://stackoverflow.com/questions/15739263/phantomjs-click-an-element" target="_blank" rel="external">stackoverflow:questions/15739263</a></p>
+<p><strong>登录后截屏</strong><br><img src="http://ww3.sinaimg.cn/large/80c4aaf9gw1ey49s5j9pjj20rd0hiaic.jpg" alt="Alt text"></p>
+<blockquote>
+<p>可以看到此登录并未触发验证，若用别的网站被脱库的账号密码来批量查询的话，有很大概率撞库。</p>
+</blockquote>
+<h2 id="网络爬虫"><a href="#网络爬虫" class="headerlink" title="网络爬虫"></a>网络爬虫</h2><h3 id="数据抓取的快感"><a href="#数据抓取的快感" class="headerlink" title="数据抓取的快感"></a>数据抓取的快感</h3><blockquote>
+<p>众所周知知乎的搜索如此之烂，刚看过的问题，再搜就搜不到了，那把知乎上你想要的分类的问题抓取下来，自己搜索咯。（当然想这么一个烂理由来抓人家的数据也是醉人）。随便抓人家的数据不好，此处只做技术分享，切勿用于商业用途。</p>
+</blockquote>
+<h5 id="批量抓取知乎某个分类下的所有问题"><a href="#批量抓取知乎某个分类下的所有问题" class="headerlink" title="批量抓取知乎某个分类下的所有问题"></a>批量抓取知乎某个分类下的所有问题</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line">var page = require(&apos;webpage&apos;).create(),</div><div class="line">    testindex = 0,</div><div class="line">    finalAns = [],</div><div class="line">    fs = require(&quot;fs&quot;);</div><div class="line">page.onLoadStarted =function() &#123;</div><div class="line">    loadInProgress =true;</div><div class="line">    console.log(&quot;load started&quot;);</div><div class="line">&#125;;</div><div class="line"> </div><div class="line">page.onLoadFinished = function() &#123;</div><div class="line">    loadInProgress = false;</div><div class="line">    console.log(&quot;load finished&quot;);</div><div class="line">&#125;;</div><div class="line">page.onUrlChanged = function() &#123;</div><div class="line">    console.log(&quot;onUrlChanged&quot;);</div><div class="line">&#125;;</div><div class="line">var circle = setInterval(function()&#123;</div><div class="line">    testindex++;</div><div class="line">    if(testindex === 51)&#123;</div><div class="line">        clearInterval(circle);</div><div class="line">        phantom.exit();</div><div class="line">    &#125;</div><div class="line">    page.open(&apos;http://www.zhihu.com/topic/19559937?page=&apos;+testindex, function(status) &#123;</div><div class="line">        if(status == &apos;fail&apos;)&#123;</div><div class="line">            testindex--;</div><div class="line">            return;</div><div class="line">        &#125;</div><div class="line">        var rect = page.evaluate(function() &#123;</div><div class="line">            var titleArr = [];</div><div class="line">            window.scrollTo(0,document.body.scrollHeight);</div><div class="line">                var title = $(&apos;.feed-item .question_link&apos;);</div><div class="line">                for(var j = 0; j &lt; title.length; j++)&#123;</div><div class="line">                    titleArr[j] = title[j].text;</div><div class="line">                &#125;</div><div class="line">            return titleArr;</div><div class="line">        &#125;);</div><div class="line">        if(rect == null)&#123;</div><div class="line">            testindex--;</div><div class="line">            return;</div><div class="line">        &#125;</div><div class="line">        file = fs.open(&quot;liuxue.txt&quot;, &apos;a&apos;);</div><div class="line">        for(var h = 0; h &lt; rect.length; h++)&#123;</div><div class="line">            file.write(rect[h]+&apos;\n&apos;);</div><div class="line">        &#125;</div><div class="line">        file.close();</div><div class="line">    &#125;);</div><div class="line">&#125;,2000);</div></pre></td></tr></table></figure>
+<blockquote>
+<p>其中用到了批量page.open 页面来控制翻页到所有的问题，然后将查询到的数据写入文件中，用到了File System API.</p>
+</blockquote>
+<h3 id="运用场景畅想"><a href="#运用场景畅想" class="headerlink" title="运用场景畅想"></a>运用场景畅想</h3><ol>
+<li>网络性能测试可用于批量、定期对竞品网站做查询，进行竞品分析如打开速度、改版频率等等。</li>
+<li>网络爬虫可批量获取数据进行竞品分析、行业报告等。</li>
+<li>页面自动化操作可用于网站自动化测试等。</li>
+</ol>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/03/27/JavaScript中Mathdotrandom的种子设定方法/" rel="prev" title="JavaScript中Math.random的种子设定方法">
+                JavaScript中Math.random的种子设定方法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+
+        
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="Panda" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Panda</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基于phantomJs2-0的网络爬虫"><span class="nav-number">1.</span> <span class="nav-text">基于phantomJs2.0的网络爬虫</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用途概述："><span class="nav-number">1.0.1.</span> <span class="nav-text">用途概述：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于安装"><span class="nav-number">1.1.</span> <span class="nav-text">关于安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#先感受下phantomJs的强大"><span class="nav-number">1.2.</span> <span class="nav-text">先感受下phantomJs的强大</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#页面自动化操作"><span class="nav-number">1.3.</span> <span class="nav-text">页面自动化操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#自动登录京东"><span class="nav-number">1.3.1.</span> <span class="nav-text">自动登录京东</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络爬虫"><span class="nav-number">1.4.</span> <span class="nav-text">网络爬虫</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据抓取的快感"><span class="nav-number">1.4.1.</span> <span class="nav-text">数据抓取的快感</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#批量抓取知乎某个分类下的所有问题"><span class="nav-number">1.4.1.0.1.</span> <span class="nav-text">批量抓取知乎某个分类下的所有问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运用场景畅想"><span class="nav-number">1.4.2.</span> <span class="nav-text">运用场景畅想</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panda</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+    
+
+  
+
+
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+
+  
+  
+
+</body>
+</html>
