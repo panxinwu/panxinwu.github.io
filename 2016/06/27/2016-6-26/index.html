@@ -53,22 +53,14 @@
 
 
 
-<meta name="description" content="京东SSO单点登录&amp;amp;跨域cookie设置方案单点登录 单点登录SSO（Single Sign On）一个多系统共存的环境下，用户在一处登录后，就不用在其他系统中登录 需解决的问题 Cookie不安全-加密Cookie 不能跨域免登-硬伤 如何防止信息传递过程被篡改-数字签名/MD5+token 如何让SSO系统信任登录系统和免登系统调用方式   跳转-https://passport.jd">
 <meta property="og:type" content="article">
-<meta property="og:title" content="京东SSO单点登录&amp;跨域cookie设置方案">
+<meta property="og:title" content="潘信伍的博客">
 <meta property="og:url" content="http://blog.panxinwu.com/2016/06/27/2016-6-26/index.html">
 <meta property="og:site_name" content="潘信伍的博客">
-<meta property="og:description" content="京东SSO单点登录&amp;amp;跨域cookie设置方案单点登录 单点登录SSO（Single Sign On）一个多系统共存的环境下，用户在一处登录后，就不用在其他系统中登录 需解决的问题 Cookie不安全-加密Cookie 不能跨域免登-硬伤 如何防止信息传递过程被篡改-数字签名/MD5+token 如何让SSO系统信任登录系统和免登系统调用方式   跳转-https://passport.jd">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://ww1.sinaimg.cn/large/80c4aaf9gw1f4y7e30c95j21840gsgsd.jpg">
-<meta property="og:image" content="http://ww1.sinaimg.cn/large/80c4aaf9gw1f4zih1ogzgj20ck03v0u6.jpg">
-<meta property="og:image" content="http://ww2.sinaimg.cn/large/80c4aaf9gw1f592dp9hf0j209o04x754.jpg">
-<meta property="og:image" content="http://ww3.sinaimg.cn/large/80c4aaf9gw1f592eck9goj20o005075w.jpg">
-<meta property="og:updated_time" content="2016-06-26T16:20:46.000Z">
+<meta property="og:updated_time" content="2017-08-31T03:35:35.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="京东SSO单点登录&amp;跨域cookie设置方案">
-<meta name="twitter:description" content="京东SSO单点登录&amp;amp;跨域cookie设置方案单点登录 单点登录SSO（Single Sign On）一个多系统共存的环境下，用户在一处登录后，就不用在其他系统中登录 需解决的问题 Cookie不安全-加密Cookie 不能跨域免登-硬伤 如何防止信息传递过程被篡改-数字签名/MD5+token 如何让SSO系统信任登录系统和免登系统调用方式   跳转-https://passport.jd">
-<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/80c4aaf9gw1f4y7e30c95j21840gsgsd.jpg">
+<meta name="twitter:title" content="潘信伍的博客">
 
 
 
@@ -80,7 +72,7 @@
   };
 </script>
 
-  <title> 京东SSO单点登录&跨域cookie设置方案 | 潘信伍的博客 </title>
+  <title>  | 潘信伍的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -200,7 +192,7 @@
             
             
               
-                京东SSO单点登录&跨域cookie设置方案
+                
               
             
           </h1>
@@ -233,22 +225,7 @@
       
 
       
-        <span itemprop="articleBody"><h3 id="京东SSO单点登录-amp-跨域cookie设置方案"><a href="#京东SSO单点登录-amp-跨域cookie设置方案" class="headerlink" title="京东SSO单点登录&amp;跨域cookie设置方案"></a>京东SSO单点登录&amp;跨域cookie设置方案</h3><h5 id="单点登录"><a href="#单点登录" class="headerlink" title="单点登录"></a>单点登录</h5><ul>
-<li>单点登录SSO（Single Sign On）一个多系统共存的环境下，用户在一处登录后，就不用在其他系统中登录</li>
-<li>需解决的问题<ul>
-<li>Cookie不安全-加密Cookie</li>
-<li>不能跨域免登-硬伤</li>
-<li>如何防止信息传递过程被篡改-数字签名/MD5+token</li>
-<li>如何让SSO系统信任登录系统和免登系统<h5 id="调用方式"><a href="#调用方式" class="headerlink" title="调用方式"></a>调用方式</h5></li>
-</ul>
-</li>
-<li>跳转-<a href="https://passport.jd.com/new/login.aspx?ReturnUrl=http%3A%2F%2Fwww.jd.com%2F" target="_blank" rel="external">https://passport.jd.com/new/login.aspx?ReturnUrl=http%3A%2F%2Fwww.jd.com%2F</a></li>
-<li>弹出层回调-<a href="https://www.jdpay.com/" target="_blank" rel="external">https://www.jdpay.com/</a><h5 id="京东单点登录实现方式"><a href="#京东单点登录实现方式" class="headerlink" title="京东单点登录实现方式"></a>京东单点登录实现方式</h5>一. 打开首页，拉取检测是否登录接口：<br><code>http://passport.jd.com/new/helloService.ashx?callback=jQuery6408755&amp;_=1466144020661</code></li>
-</ul>
-<p><img src="http://ww1.sinaimg.cn/large/80c4aaf9gw1f4y7e30c95j21840gsgsd.jpg" alt="enter image description here"><br>二. 拉取单点登录的列表<br><code>http://passport.jd.com/new/helloService.ashx?callback=jQuery7644016&amp;_=1466240680061</code><br>三. 发起hello 请求，返回json列表，列表中包含了需要单点登录的跨域的域名<br> <img src="http://ww1.sinaimg.cn/large/80c4aaf9gw1f4zih1ogzgj20ck03v0u6.jpg" alt="enter image description here"><br> 四. 循环列表跨域设置cookie<br> <img src="http://ww2.sinaimg.cn/large/80c4aaf9gw1f592dp9hf0j209o04x754.jpg" alt="Alt text"><br> 五.触发sign请求.按列表循环签名<br> <img src="http://ww3.sinaimg.cn/large/80c4aaf9gw1f592eck9goj20o005075w.jpg" alt="Alt text"></p>
-<h5 id="子域检测是否登录"><a href="#子域检测是否登录" class="headerlink" title="子域检测是否登录"></a>子域检测是否登录</h5><p> <code>http://passport.jd.com/loginservice.aspx*****</code></p>
-<h5 id="同主域下-免签登录"><a href="#同主域下-免签登录" class="headerlink" title="同主域下 免签登录"></a>同主域下 免签登录</h5><p><code>a.jd.com b.jd.com  jd.com</code> 共享cookie 无需跨域设置cookie</p>
-</span>
+        <span itemprop="articleBody"></span>
       
     </div>
 
@@ -383,7 +360,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#京东SSO单点登录-amp-跨域cookie设置方案"><span class="nav-number">1.</span> <span class="nav-text">京东SSO单点登录&跨域cookie设置方案</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#单点登录"><span class="nav-number">1.0.1.</span> <span class="nav-text">单点登录</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#调用方式"><span class="nav-number">1.0.2.</span> <span class="nav-text">调用方式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#京东单点登录实现方式"><span class="nav-number">1.0.3.</span> <span class="nav-text">京东单点登录实现方式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#子域检测是否登录"><span class="nav-number">1.0.4.</span> <span class="nav-text">子域检测是否登录</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#同主域下-免签登录"><span class="nav-number">1.0.5.</span> <span class="nav-text">同主域下 免签登录</span></a></li></ol></li></ol></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
