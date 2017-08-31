@@ -960,7 +960,7 @@ body {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #59ff86;
+  background: #fff;
 }
 .sidebar-nav {
   margin: 0 0 20px;
@@ -1265,7 +1265,7 @@ body {
   font-size: 16px;
 }
 .posts-expand .post-meta {
-  margin: 3px 0 60px 0;
+  margin: 3px 0 30px 0;
   color: #999;
   font-size: 12px;
   text-align: center;
@@ -1352,7 +1352,7 @@ body {
   text-align: center;
 }
 .post-more-link {
-  margin-top: 50px;
+  margin-top: 30px;
 }
 .posts-expand .post-body .fancybox img {
   margin: 0 auto;
